@@ -16,21 +16,23 @@ Also, if you want to use wit.ai for incoming voice messages, you have to install
 ### How to run it
 If you want to run the script locally, just type in your terminal:
 
- `python3 run.py --TELEGRAM_TOKEN [your token]  --DIALOGFLOW_KEY [your key] [optional arguments]`
+ `python3 run.py --TELEGRAM_TOKEN [your token]  --DIALOGFLOW_KEY [your key] --CUSTOMVISION_PREDICTION_URL [url] --CUSTOMVISION_PREDICTION_KEY [key] [optional arguments]`
 
 You should consider to create an init script if you want to run it on production.
 
 #### Arguments
 In order to set your bot you will need to pass as arguments:
 
-|Argument           |Required?           |Description                   |Defaults                                  |
-|-------------------|:------------------:|------------------------------|:----------------------------------------:|
-|--TELEGRAM_TOKEN   | :heavy_check_mark: |Define Telegram bot Token     | **_Mandatory_**                          |
-|--DIALOGFLOW_KEY   | :heavy_check_mark: |Define Dialogflow Key Path    | **_Mandatory_**                          |
-|--ADMIN_CHAT_ID    | :x:                |Define Telegram admin chatIDs | `[]`	                                   |
-|--WIT_TOKEN        | :x:                |Define Wit Token              | `None`	                                 |
-|--LANG             | :x:                |Language of the bot; it follows the [rfc1766](https://tools.ietf.org/html/rfc1766) specification.|`en`	         |
-|--log              | :x:                |Set logging value             | `DEBUG`                                  |
+|Argument                      |Required?           |Description                   |Defaults                                  |
+|------------------------------|:------------------:|------------------------------|:----------------------------------------:|
+|--TELEGRAM_TOKEN              | :heavy_check_mark: |Define Telegram bot Token     | **_Mandatory_**                          |
+|--DIALOGFLOW_KEY              | :heavy_check_mark: |Define Dialogflow Key Path    | **_Mandatory_**                          |
+|--CUSTOMVISION_PREDICTION_URL | :heavy_check_mark: |CustomVision Prediction URL   | **_Mandatory_**                          |
+|--CUSTOMVISION_PREDICTION_KEY | :heavy_check_mark: |CustomVision Prediction KEY   | **_Mandatory_**                          |
+|--ADMIN_CHAT_ID               | :x:                |Define Telegram admin chatIDs | `[]`	                                  |
+|--WIT_TOKEN                   | :x:                |Define Wit Token              | `None`	                                  |
+|--LANG                        | :x:                |Language of the bot; it follows the [rfc1766](https://tools.ietf.org/html/rfc1766) specification.|`en`	         |
+|--log                         | :x:                |Set logging value             | `DEBUG`                                  |
 
 If you want telegram notifications every time the script will be shut down / turned up you need to set the `ADMIN_CHAT_ID`.
 You can set the `ADMIN_CHAT_ID` with multiple arguments, for example: `--ADMIN_CHAT_ID 12345 54321`.    

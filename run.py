@@ -13,6 +13,7 @@ import os
 import subprocess
 import sys
 import dialogflow
+import requests
 
 from telegram.ext import Updater, CommandHandler, Filters, \
     MessageHandler, InlineQueryHandler
@@ -22,7 +23,7 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent
 from wit import Wit
 from wit.wit import WitError
 
-from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LANG
+from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, CUSTOMVISION_PREDICTION_URL, CUSTOMVISION_PREDICTION_KEY, LANG
 from lang import NOT_UNDERSTOOD
 
 
@@ -45,6 +46,19 @@ def text(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     reply = dialogflow_text_request(update.message.text, chat_id)
+    bot.send_message(chat_id=chat_id, text=reply)
+
+
+def photo(bot, update):
+    chat_id = update.message.chat_id
+    bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+    new_file = BOT.get_file(update.message.photo[len(update.message.photo)-1].file_id)
+    r = requests.post(CUSTOMVISION_PREDICTION_URL, \
+            headers={'Prediction-Key':CUSTOMVISION_PREDICTION_KEY}, \
+            json={'Url':new_file.file_path})
+    j = r.json()
+    logging.debug(j)
+    reply = j['predictions'][0]['tagName']
     bot.send_message(chat_id=chat_id, text=reply)
 
 
@@ -149,6 +163,8 @@ START_HANDLER = CommandHandler('start', start)
 DISPATCHER.add_handler(START_HANDLER)
 TEXT_HANDLER = MessageHandler(Filters.text, text)
 DISPATCHER.add_handler(TEXT_HANDLER)
+PHOTO_HANDLER = MessageHandler(Filters.photo, photo)
+DISPATCHER.add_handler(PHOTO_HANDLER)
 INLINE_HANDLER = InlineQueryHandler(inline)
 DISPATCHER.add_handler(INLINE_HANDLER)
 if WIT_TOKEN:
