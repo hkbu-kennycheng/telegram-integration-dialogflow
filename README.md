@@ -3,6 +3,7 @@
 # telegram-integration-dialogflow
 A substitute for the default Telegram integration on Dialogflow that supports advanced features:
 * inline queries;
+* incoming photo classification using Microsoft CustomVision API
 * incoming voice messages;
 
 ## How to use it
